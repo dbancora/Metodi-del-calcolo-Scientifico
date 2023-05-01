@@ -12,6 +12,7 @@ cartella = "./"
 
 # definiamo due array per la creazione dei plot
 tempi_cholesky = []
+memoria_cholesky = []
 nomi_matrici = []
 
 # loop sui file nella cartella
@@ -57,7 +58,7 @@ for filename in os.listdir(cartella):
         factor = cholmod.cholesky(A)
 
         # Ottieni la memoria usata dopo la fattorizzazione di Cholesky
-        memoria_cholesky = memoria_usata() - memoria_iniziale
+        memoria_cholesky.append(memoria_usata() - memoria_iniziale)
 
         # Risolvi il sistema lineare
         x = factor(b)
@@ -65,9 +66,12 @@ for filename in os.listdir(cartella):
         end_time = time.time()
 
         # Ottieni la memoria usata dopo la risoluzione del sistema
-        memoria_risoluzione = memoria_usata() - memoria_cholesky - memoria_iniziale
+        memoria_risoluzione = memoria_usata() - memoria_cholesky[-1] - memoria_iniziale
 
-        print("Memoria utilizzata per la fattorizzazione di Cholesky: {:.2f} MB".format(memoria_cholesky))
+        # Calcola la memoria totale utilizzata
+        memoria_totale = memoria_cholesky[-1] + memoria_risoluzione + memoria_iniziale
+
+        print("Memoria utilizzata per la fattorizzazione di Cholesky: {:.2f} MB".format(memoria_cholesky[-1]))
         print("Memoria utilizzata per la risoluzione del sistema: {:.2f} MB".format(memoria_risoluzione))
 
         # terminiamo il timer e stampiamo il risultato        
@@ -106,11 +110,24 @@ for filename in os.listdir(cartella):
 
 
 # Ordina i tempi di esecuzione in base alla dimensione dei file
-tempi_cholesky, nomi_matrici = zip(*sorted(zip(tempi_cholesky, nomi_matrici), key=lambda x: os.path.getsize(os.path.join(cartella, x[1]))))
+tempi_cholesky, memoria_cholesky, nomi_matrici = zip(*sorted(zip(tempi_cholesky, memoria_cholesky, nomi_matrici), key=lambda x: os.path.getsize(os.path.join(cartella, x[2]))))
 
 # Crea il grafico
-plt.bar(nomi_matrici, tempi_cholesky)
-plt.xticks(rotation=90)
-plt.xlabel("Nome della matrice")
-plt.ylabel("Tempo di esecuzione della decomposizione di Cholesky (secondi)")
+fig, ax1 = plt.subplots(figsize=(10, 5))
+
+color = 'tab:red'
+ax1.set_xlabel('Nome della matrice')
+ax1.set_ylabel('Tempo di esecuzione della decomposizione di Cholesky (secondi)', color=color)
+ax1.bar(nomi_matrici, tempi_cholesky, color=color)
+ax1.tick_params(axis='y', labelcolor=color)
+ax1.tick_params(axis='x', rotation=90)
+
+ax2 = ax1.twinx()  # Secondo asse y
+
+color = 'tab:blue'
+ax2.set_ylabel('Memoria utilizzata (MB)', color=color)
+ax2.plot(nomi_matrici, memoria_cholesky, color=color)
+ax2.tick_params(axis='y', labelcolor=color)
+
+fig.tight_layout()
 plt.show()
