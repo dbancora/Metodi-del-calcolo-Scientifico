@@ -6,14 +6,14 @@ Il file *mainCalcolo.py* contiene il codice per eseguire la decomposizione di Ch
 
 ### Matrici supportate
 
-| Nomi Matrici | Stato |
-|-----------|-----------|
-| ex15.mat  | :white_check_mark:   |
-| shallow_water1.mat    | :white_check_mark:   | 
-| apache2.mat   | :white_check_mark:    | 
-| parabolic_fem.mat  | :white_check_mark:    | 
-| G3_circuit.mat   | :white_check_mark:    | 
-| cfd1.mat   | :white_check_mark:    | 
-| cfd2.mat   | :white_check_mark:    |
-| StocF-1465.mat   | :x:    |
-| Flan_1565.mat   | :x:    |
+| Nomi Matrici | Stato | Dimensione (in KB) |
+|-----------|-----------|-----------|
+| ex15.mat  | :white_check_mark:   |  555 |
+| shallow_water1.mat    | :white_check_mark:   | 2263 |
+| apache2.mat   | :white_check_mark:    | 8302 |
+| parabolic_fem.mat  | :white_check_mark:    | 13116 |
+| G3_circuit.mat   | :white_check_mark:    | 13833 |
+| cfd1.mat   | :white_check_mark:    | 14164 |
+| cfd2.mat   | :white_check_mark:    | 23192 |
+| StocF-1465.mat   | :x:    | 178368 |
+| Flan_1565.mat   | :x:    | 292858 |
