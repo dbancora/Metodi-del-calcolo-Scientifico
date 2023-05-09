@@ -21,7 +21,7 @@ del sistema lineare *Ax=b* per gran parte delle matrici richieste dalla consegna
 Le Matrici simmetriche e definite positive considerate fanno parte della SuiteSparse Matrix Collection che colleziona matrici sparse derivanti da applicazioni di problemi reali 
 (ingegneria strutturale, fluidodinamica, elettromagnetismo, termodinamica, computer graphics/vision, network e grafi). Disponibili al seguente link: https://sparse.tamu.edu/
 
-| Nomi File | Stato | Dimensione (in KB) |
+| Matrici | Stato | Dimensione (in KB) |
 |-----------|-----------|-----------|
 | [ex15.mat](https://sparse.tamu.edu/FIDAP/ex15)  | :white_check_mark:   |  555 |
 | [shallow_water1.mat](https://sparse.tamu.edu/MaxPlanck/shallow_water1)    | :white_check_mark:   | 2263 |
