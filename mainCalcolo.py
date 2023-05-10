@@ -6,6 +6,8 @@ import time
 import psutil #funziona su windows
 import os
 import matplotlib.pyplot as plt
+import csv
+import re
 
 # Estrae la matrice dal file .mat e la salva nella variabile 'A'
 def load_matrix_from_file(filename):
@@ -167,6 +169,10 @@ matrici_dimensioni = [f"{name} ({size/(1024*1024):.2f} MB)" for name, size in zi
 # Ordina i tempi di esecuzione in base alla dimensione dei file
 tempi_totali, memoria_cholesky, nomi_matrici = zip(*sorted(zip(tempi_totali, memoria_cholesky, nomi_matrici), key=lambda x: os.path.getsize(os.path.join(cartella, x[2]))))
 
+"""
+
+# ------Crea grafico tempo di esecuzione di decomposizione e reisoluzione sistema lineare-------# 
+
 
 # Crea il grafico dei tempi di esecuzione 
 fig, ax1 = plt.subplots(figsize=(10, 5))
@@ -183,6 +189,8 @@ for i, v in enumerate(tempi_totali):
 
 ax1.tick_params(axis='y', labelcolor=color)
 # ax1.tick_params(axis='x', rotation=90)
+
+# ------Crea grafico memoria utilizzata per decomposizione e per risoluzione sistema lineare-------# 
 
 
 # Crea il gragfico della memoria utilizzata
@@ -203,3 +211,21 @@ plt.subplots_adjust(bottom=0.3)
 
 fig.tight_layout()
 plt.show()
+
+"""
+
+# ------CREA FILE CSV-------# 
+
+# Nome del file CSV da creare
+filename = "dati_python.csv"
+
+with open(filename, mode='w', newline='') as file:
+    writer = csv.writer(file)
+    writer.writerow(["MatrixName", "Size", "MemoryDiff", "Time", "Error"])
+    for i in range(len(nomi_matrici)):
+        # Salva il nome della matrice in una stringa
+        matrix_name = nomi_matrici[i]
+        # Rimuovi il numero e lo spazio dal nome della matrice
+        new_matrix_name = re.sub(r"^\d+\s+", "", matrix_name)
+        # Inserisce il nome della matrice (senza spazio e senza numero) all'interno del file csv
+        writer.writerow([new_matrix_name, file_size[i], memoria_cholesky[i], tempi_totali[i], errori_relativi[i]])
