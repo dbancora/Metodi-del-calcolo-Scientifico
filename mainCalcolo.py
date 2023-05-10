@@ -95,6 +95,12 @@ def compute_num_nonzeros(A):
     num_nonzeros = len(rows)
     return num_nonzeros
 
+# Calcola la dimensione del file .mat preso in considerazione
+def compute_filesize(filename):
+    fileSize = os.path.getsize(filename)
+    print('Dimensione del file:', fileSize, 'byte')
+    return fileSize
+
 # MainFile
 def process_file(filename):
     print(f"Elaborazione file {filename}")
@@ -126,12 +132,18 @@ def process_file(filename):
 
     percent_zero = compute_percent_zeros(A)
     num_nonzeros = compute_num_nonzeros(A)
-    return tempo_cholesky, errore_relativo, percent_zero, num_nonzeros, memoria_totale
+    
+    fileSize = compute_filesize(filename)
+
+
+    return tempo_cholesky, errore_relativo, percent_zero, num_nonzeros, memoria_totale, fileSize, errore_relativo
 
 # definiamo tre array per la creazione dei plot
 tempi_totali = []
 memoria_cholesky = []
 nomi_matrici = []
+file_size = []
+errori_relativi = []
 
 # cartella contenente i file .mat
 cartella = "./"
@@ -141,14 +153,20 @@ for filename in os.listdir(cartella):
 
     if filename.endswith(".mat"):
 
-        tempo_cholesky, errore_relativo, percent_zero, num_nonzero, memoria_totale = process_file(filename)
+        tempo_cholesky, errore_relativo, percent_zero, num_nonzero, memoria_totale, fileSize, errore_relativo = process_file(filename)
         tempi_totali.append(tempo_cholesky)
         nomi_matrici.append(filename)
-        memoria_cholesky.append(memoria_totale)
+        memoria_cholesky.append(memoria_totale)   
+        file_size.append(fileSize)     
+        errori_relativi.append(errore_relativo)  
+
+
+matrici_dimensioni = [f"{name} ({size/(1024*1024):.2f} MB)" for name, size in zip(nomi_matrici, file_size)]
 
 
 # Ordina i tempi di esecuzione in base alla dimensione dei file
 tempi_totali, memoria_cholesky, nomi_matrici = zip(*sorted(zip(tempi_totali, memoria_cholesky, nomi_matrici), key=lambda x: os.path.getsize(os.path.join(cartella, x[2]))))
+
 
 # Crea il grafico dei tempi di esecuzione 
 fig, ax1 = plt.subplots(figsize=(10, 5))
@@ -156,7 +174,7 @@ fig, ax1 = plt.subplots(figsize=(10, 5))
 color = 'tab:red'
 ax1.set_xlabel('Nome della matrice (ordinate in base alla dimensione del file in ordine crescente)')
 ax1.set_ylabel('Tempo di esecuzione della decomposizione di Cholesky e della risoluzione del sistema lineare (secondi)', color=color)
-ax1.bar(nomi_matrici, tempi_totali, width=-0.2, align='edge', color=color)
+ax1.bar(matrici_dimensioni, tempi_totali, width=-0.2, align='edge', color=color)
 
 # aggiungi etichette di testo per i tempi di esecuzione
 for i, v in enumerate(tempi_totali):
@@ -164,7 +182,7 @@ for i, v in enumerate(tempi_totali):
 
 
 ax1.tick_params(axis='y', labelcolor=color)
-ax1.tick_params(axis='x', rotation=90)
+# ax1.tick_params(axis='x', rotation=90)
 
 
 # Crea il gragfico della memoria utilizzata
@@ -172,7 +190,7 @@ ax2 = ax1.twinx()  # Secondo asse y
 
 color = 'tab:blue'
 ax2.set_ylabel('Memoria utilizzata (MB) per Cholensky e risoluzione sistema lineare', color=color)
-ax2.bar(nomi_matrici, memoria_cholesky, width=0.2, align='edge', color=color, alpha=0.5)
+ax2.bar(matrici_dimensioni, memoria_cholesky, width=0.2, align='edge', color=color, alpha=0.5)
 
 # aggiungi etichette di testo per la memoria utilizzata
 for i, v in enumerate(memoria_cholesky):
