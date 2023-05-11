@@ -126,7 +126,7 @@ def process_file(filename):
     tempo_cholesky = end_time - start_time
     
     #Stampa il tempo impiegato per la decomposizione di Cholesky
-    print("Tempo impiegato per la decomposizione di Cholesky: {:.4f} secondi ".format(tempo_cholesky))
+    print("Tempo impiegato per la decomposizione di Cholesky e risoluzione sistema lineare: {:.4f} secondi ".format(tempo_cholesky))
     
     errore_relativo = compute_relative_error(x)
 
@@ -169,10 +169,11 @@ matrici_dimensioni = [f"{name} ({size/(1024*1024):.2f} MB)" for name, size in zi
 # Ordina i tempi di esecuzione in base alla dimensione dei file
 tempi_totali, memoria_cholesky, nomi_matrici = zip(*sorted(zip(tempi_totali, memoria_cholesky, nomi_matrici), key=lambda x: os.path.getsize(os.path.join(cartella, x[2]))))
 
-"""
+
 
 # ------Crea grafico tempo di esecuzione di decomposizione e reisoluzione sistema lineare-------# 
 
+""""
 
 # Crea il grafico dei tempi di esecuzione 
 fig, ax1 = plt.subplots(figsize=(10, 5))
@@ -227,5 +228,7 @@ with open(filename, mode='w', newline='') as file:
         matrix_name = nomi_matrici[i]
         # Rimuovi il numero e lo spazio dal nome della matrice
         new_matrix_name = re.sub(r"^\d+\s+", "", matrix_name)
+        # converti MB in byte e scrivi numeri senza virgola
+        memory_diff = int(memoria_cholesky[i] * 1024 * 1024)
         # Inserisce il nome della matrice (senza spazio e senza numero) all'interno del file csv
-        writer.writerow([new_matrix_name, file_size[i], memoria_cholesky[i], tempi_totali[i], errori_relativi[i]])
+        writer.writerow([new_matrix_name, file_size[i], memory_diff, tempi_totali[i], errori_relativi[i]])
