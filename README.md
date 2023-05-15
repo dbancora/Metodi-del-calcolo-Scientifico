@@ -48,9 +48,6 @@ All'interno del programma è possibile trovare diverse funzioni quali:
 * **compute_filesize(filename):** Calcola la dimensione del file .mat specificato.
 * **process_file(filename):** Carica il file di matrice specificato, esegue le operazioni necessarie per calcolare la soluzione del problema e restituisce il tempo di esecuzione, l'errore relativo, la percentuale di elementi nulli, il numero di elementi non nulli, la memoria totale utilizzata e la dimensione del file.
 
-
-* **SciKit-Sparse**: fornisce un'interfaccia per utilizzare le funzionalità di CHOLMOD, una libreria di algebra lineare sparse e decomposizione di Cholesky. La sottolibreria usata nel programma è **sksparse.cholmod** che consente di creare oggetti di matrice sparsa, eseguire operazioni algebriche su di esse e sfruttare le capacità di CHOLMOD per decomporre matrici sparse, risolvere sistemi lineari e svolgere altre operazioni di algebra lineare avanzate. 
-
 ### SciPy
 E' una libreria open-source per la computazione scientifica e tecnica in Python.  SciPy si basa su NumPy, un'altra libreria Python per il calcolo scientifico. Nel programma vengono utilizzate alcune sottolibrerie tra cui:
   * scipy.io: Fornisce funzioni per leggere e scrivere dati da file in diversi formati, come MATLAB (.mat) e file di testo.
