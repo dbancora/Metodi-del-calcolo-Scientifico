@@ -1,4 +1,6 @@
 import scipy.io
+import scipy.sparse
+import scipy.linalg
 import sksparse.cholmod as cholmod
 import numpy as np
 import time
@@ -14,7 +16,19 @@ def load_matrix_from_file(filename):
     mat = scipy.io.loadmat(filename)
     A = mat['Problem'][0, 0]['A']
     A = scipy.sparse.csc_matrix(A)
+    # Verifica se la matrice è sparsa
+    if scipy.sparse.isspmatrix_csc(A):
+        print("La matrice A è sparsa")
+    
+    if is_symmetric(A):
+        print("La matrice A è simmetrica")
+    else:
+        print("La matrice A non è simmetrica")
     return A
+
+def is_symmetric(A):
+    A_transpose = A.transpose()
+    return np.all(A.data == A_transpose.data)
 
 # Crea il vettore 'b' a partire dai valori contenuti nella matrice 'A' passata come parametro affinchè la sol. del sistema lineare sia un vettore 'x' composto da tutti 1
 def create_b_vector(A):
@@ -33,7 +47,13 @@ def cholesky_decomposition(A):
         process = psutil.Process()
         memoria_iniziale = process.memory_info().rss / (1024 * 1024)
 
-    factor = cholmod.cholesky(A)
+    # Calcola la fattorizzazione di Cholesky 
+    try:
+        factor = cholmod.cholesky(A)
+        print("La matrice A è definita positiva")
+    # Cattura l'eccezione nel caso in cui la matrice non sia definita positiva
+    except cholmod.CHOLMODNotPositiveDefinite:
+        print("La matrice A non è definita positiva")
 
     # Ottieni la memoria usata dopo la fattorizzazione di Cholesky
     memoria_finale = None
