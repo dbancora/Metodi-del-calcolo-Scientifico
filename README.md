@@ -33,7 +33,7 @@ Le Matrici simmetriche e definite positive considerate fanno parte della SuiteSp
 | [StocF-1465.mat](https://sparse.tamu.edu/Janna/StocF-1465)   | Out of memory :x:    | 178368 |
 | [Flan_1565.mat](https://sparse.tamu.edu/Janna/Flan_1565)   | Out of Memory :x:    | 292858 |
 
-### Descrizione del programma
+## Descrizione del programma
 
 Il programma esegue diverse operazioni su una serie di file di matrici sparse e definite positive, con lo scopo di calcolare il tempo di esecuzione e la memoria utilizzata durante la decomposizione di Cholesky e la risoluzione di un sistema lineare *Ax=b*. 
 All'interno del programma è possibile trovare diverse funzioni quali: 
@@ -48,9 +48,28 @@ All'interno del programma è possibile trovare diverse funzioni quali:
 * **compute_filesize(filename):** Calcola la dimensione del file .mat specificato.
 * **process_file(filename):** Carica il file di matrice specificato, esegue le operazioni necessarie per calcolare la soluzione del problema e restituisce il tempo di esecuzione, l'errore relativo, la percentuale di elementi nulli, il numero di elementi non nulli, la memoria totale utilizzata e la dimensione del file.
 
-Prima di eseguire il programma, è necessario importare alcune librerie tra cui:
-* **SciPy**: libreria open-source per la computazione scientifica e tecnica in Python.  SciPy si basa su NumPy, un'altra libreria Python per il calcolo scientifico. Nel programma vengono utilizzate alcune sottolibrerie tra cui:
+
+* **SciKit-Sparse**: fornisce un'interfaccia per utilizzare le funzionalità di CHOLMOD, una libreria di algebra lineare sparse e decomposizione di Cholesky. La sottolibreria usata nel programma è **sksparse.cholmod** che consente di creare oggetti di matrice sparsa, eseguire operazioni algebriche su di esse e sfruttare le capacità di CHOLMOD per decomporre matrici sparse, risolvere sistemi lineari e svolgere altre operazioni di algebra lineare avanzate. 
+
+### SciPy
+E' una libreria open-source per la computazione scientifica e tecnica in Python.  SciPy si basa su NumPy, un'altra libreria Python per il calcolo scientifico. Nel programma vengono utilizzate alcune sottolibrerie tra cui:
   * scipy.io: Fornisce funzioni per leggere e scrivere dati da file in diversi formati, come MATLAB (.mat) e file di testo.
   * scipy.sparse: Offre strutture dati e algoritmi per lavorare con matrici sparse, che sono matrici con molti elementi nulli. Questa sottolibreria fornisce metodi efficienti per la manipolazione, la fattorizzazione e la risoluzione di sistemi lineari sparsi.
   * scipy.linalg: Fornisce funzioni per operazioni lineari algebriche, come calcolo degli autovalori e autovettori, risoluzione di sistemi lineari, decomposizione di matrici e altro ancora.
-* **SciKit-Sparse**: fornisce un'interfaccia per utilizzare le funzionalità di CHOLMOD, una libreria di algebra lineare sparse e decomposizione di Cholesky. La sottolibreria usata nel programma è **sksparse.cholmod** che consente di creare oggetti di matrice sparsa, eseguire operazioni algebriche su di esse e sfruttare le capacità di CHOLMOD per decomporre matrici sparse, risolvere sistemi lineari e svolgere altre operazioni di algebra lineare avanzate. 
+
+La documentazione della libreria è presente al sito https://docs.scipy.org/doc/scipy/ e contiene tutte le informazioni necessarie per l'installazione e per l'utilizzo dei metodi utili per il progetto. In particolare, il link è diviso in 4 sezioni:
+* *Getting Started* che contiene le informazioni per l'installazione della libreria e i tutorial utili per scrivere il codice. 
+* *User guide*  è una sezione che fornisce una panoramica completa e dettagliata sulle funzionalità offerte dalla libreria SciPy. Fornisce esempi pratici, spiegazioni concettuali e istruzioni passo-passo su come utilizzare le varie funzioni e moduli. Utile per gli utenti che desiderano imparare ad utilizzare SciPy o che vogliono approfondire la loro conoscenza della libreria
+* *Api Reference*  è una sezione che fornisce una documentazione tecnica dettagliata sull'interfaccia di programmazione (API) di SciPy. In questa sezione sono elencati tutti i moduli, le classi, le funzioni e gli attributi disponibili insieme alle loro firme, descrizioni e parametri. L'API Reference è pensata per gli sviluppatori che desiderano utilizzare SciPy come libreria e hanno bisogno di informazioni precise sulle funzioni e sulle loro modalità di utilizzo.
+* *Developer Guide* contiene le informazioni utili per contribuire al progetto open source. Vengono indicati quali sono i bug noti, e la roadmap per implementare le nuove funzionalità pianificate. 
+L'ultimo aggiornamento della libreria risale a Febbraio 2023 ma, osservando il progetto contenuto su GitHub, è facile notare che gli autori continuano ad aggiornare la libreria. 
+
+### SciKit-Sparse
+E' una libreria opensource e fornisce un'interfaccia per utilizzare le funzionalità di CholMod una libreria di algebra lineare sparse e decomposizione di Cholesky. La sottolibreria usata nel programma è **sksparse.cholmod** che consente di creare oggetti di matrice sparsa, eseguire operazioni algebriche su di esse e sfruttare le capacità di CHOLMOD per decomporre matrici sparse, risolvere sistemi lineari e svolgere altre operazioni di algebra lineare avanzate. 
+
+La documentazione è disponibile al sito https://scikit-sparse.readthedocs.io/en/latest/ ed è divisa in varie sezioni tra cui:
+* **Overview** che contiene link utili per l'installazione della libreria, le informazioni generali e i contatti degli sviluppatori. E' inoltre presente una sezione specifica per i requisiti necessari per il corretto funzionamento della libreria e questi comprendono NumPy, SciPy (vedi sopra), Cython e CHOLMOD (incluso in SuiteSparse). 
+* **Sparse.cholmod** contiene le informazioni relative per l'utilizzo dei metodi per la decomposizione di Cholesky psu matrici sparse. E' disponibile una sezione relativa agli errori che possono verificarsi durante l'utilizzo della funzione. 
+* **Changes** contiene tutte le versioni della libreria che sono state distribuite: per ognuna di queste è possibile verificare il changelog delle funzionalità. 
+
+
