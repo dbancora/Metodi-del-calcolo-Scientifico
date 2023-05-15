@@ -32,3 +32,18 @@ Le Matrici simmetriche e definite positive considerate fanno parte della SuiteSp
 | [cfd2.mat](https://sparse.tamu.edu/Rothberg/cfd2)   | :white_check_mark:    | 23192 |
 | [StocF-1465.mat](https://sparse.tamu.edu/Janna/StocF-1465)   | Out of memory :x:    | 178368 |
 | [Flan_1565.mat](https://sparse.tamu.edu/Janna/Flan_1565)   | Out of Memory :x:    | 292858 |
+
+### Descrizione del programma
+
+Il programma esegue diverse operazioni su una serie di file di matrici sparse e definite positive, con lo scopo di calcolare il tempo di esecuzione e la memoria utilizzata durante la decomposizione di Cholesky e la risoluzione di un sistema lineare *Ax=b*. 
+All'interno del programma è possibile trovare diverse funzioni quali: 
+
+* **load_matrix_from_file(filename):** Carica una matrice dal file .mat specificato e la salva nella variabile 'A'. Verifica se la matrice è sparsa e stampa un messaggio di avviso se lo è.
+* **create_b_vector(A):** Crea un vettore 'b' a partire dai valori contenuti nella matrice 'A', in modo che la soluzione del sistema lineare sia un vettore 'x' composto interamente da 1.
+* **cholesky_decomposition(A):** Esegue la decomposizione di Cholesky della matrice 'A' e calcola la memoria utilizzata durante il processo. Restituisce il fattore di Cholesky e la memoria utilizzata.
+* **solve_linear_system(factor, b)**: Risolve il sistema lineare Ax=b utilizzando il fattore di Cholesky calcolato in precedenza e il vettore 'b'. Calcola anche la memoria utilizzata durante il processo.
+* **compute_relative_error(x):** Calcola l'errore relativo della soluzione 'x' del sistema lineare confrontato con un vettore 'xEsatto' composto da tutti 1.
+* **compute_percent_zeros(A):** Calcola la percentuale di elementi uguali a 0 nella matrice 'A'.
+* **compute_num_nonzeros(A):** Calcola il numero di elementi diversi da 0 presenti nella matrice 'A'.
+* **compute_filesize(filename):** Calcola la dimensione del file .mat specificato.
+* **process_file(filename):** Carica il file di matrice specificato, esegue le operazioni necessarie per calcolare la soluzione del problema e restituisce il tempo di esecuzione, l'errore relativo, la percentuale di elementi nulli, il numero di elementi non nulli, la memoria totale utilizzata e la dimensione del file.
