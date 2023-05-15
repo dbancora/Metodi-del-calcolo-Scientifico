@@ -65,8 +65,8 @@ L'ultimo aggiornamento della libreria risale a Febbraio 2023 ma, osservando il p
 E' una libreria opensource e fornisce un'interfaccia per utilizzare le funzionalità di CholMod una libreria di algebra lineare sparse e decomposizione di Cholesky. La sottolibreria usata nel programma è **sksparse.cholmod** che consente di creare oggetti di matrice sparsa, eseguire operazioni algebriche su di esse e sfruttare le capacità di CHOLMOD per decomporre matrici sparse, risolvere sistemi lineari e svolgere altre operazioni di algebra lineare avanzate. 
 
 La documentazione è disponibile al sito https://scikit-sparse.readthedocs.io/en/latest/ ed è divisa in varie sezioni tra cui:
-* **Overview** che contiene link utili per l'installazione della libreria, le informazioni generali e i contatti degli sviluppatori. E' inoltre presente una sezione specifica per i requisiti necessari per il corretto funzionamento della libreria e questi comprendono NumPy, SciPy (vedi sopra), Cython e CHOLMOD (incluso in SuiteSparse). 
-* **Sparse.cholmod** contiene le informazioni relative per l'utilizzo dei metodi per la decomposizione di Cholesky psu matrici sparse. E' disponibile una sezione relativa agli errori che possono verificarsi durante l'utilizzo della funzione. 
-* **Changes** contiene tutte le versioni della libreria che sono state distribuite: per ognuna di queste è possibile verificare il changelog delle funzionalità. 
+* *Overview* che contiene link utili per l'installazione della libreria, le informazioni generali e i contatti degli sviluppatori. E' inoltre presente una sezione specifica per i requisiti necessari per il corretto funzionamento della libreria e questi comprendono NumPy, SciPy (vedi sopra), Cython e CHOLMOD (incluso in SuiteSparse). 
+* *Sparse.cholmod* contiene le informazioni relative per l'utilizzo dei metodi per la decomposizione di Cholesky psu matrici sparse. E' disponibile una sezione relativa agli errori che possono verificarsi durante l'utilizzo della funzione. 
+* *Changes* contiene tutte le versioni della libreria che sono state distribuite: per ognuna di queste è possibile verificare il changelog delle funzionalità. 
 
 
