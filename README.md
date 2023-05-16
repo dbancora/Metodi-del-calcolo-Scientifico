@@ -39,6 +39,7 @@ Il programma esegue diverse operazioni su una serie di file di matrici sparse e 
 All'interno del programma è possibile trovare diverse funzioni quali: 
 
 * **load_matrix_from_file(filename):** Carica una matrice dal file .mat specificato e la salva nella variabile 'A'. Verifica se la matrice è sparsa e stampa un messaggio di avviso se lo è.
+* **is_symmetric(A):** Verifica se una matrice A è simmetrica controllando se i valori non nulli della matrice sono gli stessi dei valori non nulli della sua trasposta. La funzione inizia calcolando la trasposta della matrice A utilizzando il metodo *transpose* fornito da NumPy. Successivamente, viene confrontato l'array *data* di *A* (che contiene i valori non nulli della matrice) con l'array *data* della sua trasposta. La funzione *np.all* restituisce _True_ solo se tutti gli elementi degli array sono uguali, verificando così che la matrice è simmetrica. 
 * **create_b_vector(A):** Crea un vettore 'b' a partire dai valori contenuti nella matrice 'A', in modo che la soluzione del sistema lineare sia un vettore 'x' composto interamente da 1.
 * **cholesky_decomposition(A):** Esegue la decomposizione di Cholesky della matrice 'A' e calcola la memoria utilizzata durante il processo. Restituisce il fattore di Cholesky e la memoria utilizzata.
 * **solve_linear_system(factor, b)**: Risolve il sistema lineare Ax=b utilizzando il fattore di Cholesky calcolato in precedenza e il vettore 'b'. Calcola anche la memoria utilizzata durante il processo.
@@ -47,6 +48,7 @@ All'interno del programma è possibile trovare diverse funzioni quali:
 * **compute_num_nonzeros(A):** Calcola il numero di elementi diversi da 0 presenti nella matrice 'A'.
 * **compute_filesize(filename):** Calcola la dimensione del file .mat specificato.
 * **process_file(filename):** Carica il file di matrice specificato, esegue le operazioni necessarie per calcolare la soluzione del problema e restituisce il tempo di esecuzione, l'errore relativo, la percentuale di elementi nulli, il numero di elementi non nulli, la memoria totale utilizzata e la dimensione del file.
+
 
 ### SciPy
 E' una libreria open-source per la computazione scientifica e tecnica in Python.  SciPy si basa su NumPy, un'altra libreria Python per il calcolo scientifico. Nel programma vengono utilizzate alcune sottolibrerie tra cui:
@@ -70,3 +72,14 @@ La documentazione è disponibile al sito https://scikit-sparse.readthedocs.io/en
 * *Changes* contiene tutte le versioni della libreria che sono state distribuite: per ognuna di queste è possibile verificare il changelog delle funzionalità. 
 
 Osservando la pagina ufficiale della libreria, si trova un link di riferimento alla pagina GitHub del progetto. L'ultima release risale a novembre 2022 e, attualmente, non sono disponibili nuovi aggiornamenti; anche osservando i singoli file della libreria, non si notano nuovi push. 
+
+### NumPy
+NumPy è una libreria open-source per il linguaggio di programmazione Python, che fornisce supporto per l'elaborazione efficiente di array multidimensionali. È ampiamente utilizzata nel campo della computazione scientifica, data manipulation e machine learning. E' stata utilizzata nel progetto per manipolare array  multidimensionali pur non essendo strattamente legata alla manipolazione delle matrici sparse. In particolare, nel nostro programma, viene utilizzata:
+* per calcolare la trasposta della matrice e verificare se ques'ultima è simmetrica con la matrice A data in input. 
+* per creare un vettore *x_esatto*, utile per calcolare l'errore relativo. 
+* per creare il vettore *b*, utile per la riosoluzione del sistema lineare *Ax=b* 
+
+Inoltre, la libreria è necessaria per il funzionamento di *SciPy* e *SciKit-Sparse*. Di fatto è ampiamente utilizzato come base per molte altre librerie scientifiche in Python per eseguire oprazioni su array multidimensionali. 
+La documentazione della libreria è disponibile al sito https://numpy.org/doc/stable/ e la struttura del sito è analoga a quella descritta in SciPy. Quest'ultima dipende strettamente da NumPy per le ragioni sopradescritte. 
+
+
