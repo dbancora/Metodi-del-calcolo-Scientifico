@@ -69,4 +69,4 @@ La documentazione è disponibile al sito https://scikit-sparse.readthedocs.io/en
 * *Sparse.cholmod* contiene le informazioni relative per l'utilizzo dei metodi per la decomposizione di Cholesky psu matrici sparse. E' disponibile una sezione relativa agli errori che possono verificarsi durante l'utilizzo della funzione. 
 * *Changes* contiene tutte le versioni della libreria che sono state distribuite: per ognuna di queste è possibile verificare il changelog delle funzionalità. 
 
-Osservando la pagina ufficiale della libreria, si trova un link di riferimento alla pagina GitHub del progetto. L'ultima release risale a novembre 2022 e, attualmente, non sono disponibili nuovio aggiornamenti; anche osservando i singoli file della libreria, non si notano nuovi push. 
+Osservando la pagina ufficiale della libreria, si trova un link di riferimento alla pagina GitHub del progetto. L'ultima release risale a novembre 2022 e, attualmente, non sono disponibili nuovi aggiornamenti; anche osservando i singoli file della libreria, non si notano nuovi push. 
