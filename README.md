@@ -35,7 +35,7 @@ Le Matrici simmetriche e definite positive considerate fanno parte della SuiteSp
 
 ## Descrizione del programma
 
-Il programma esegue diverse operazioni su una serie di file di matrici sparse e definite positive, con lo scopo di calcolare il tempo di esecuzione e la memoria utilizzata durante la decomposizione di Cholesky e la risoluzione di un sistema lineare *Ax=b*. 
+Il programma esegue diverse operazioni su una serie di file che contengono matrici sparse e definite positive, con lo scopo di calcolare il tempo di esecuzione, la memoria utilizzata e l'errore relativo, tra la soluzione calcolata e quellla esatta, durante la decomposizione di Cholesky e la risoluzione di un sistema lineare *Ax=b*. 
 All'interno del programma è possibile trovare diverse funzioni quali: 
 
 * **load_matrix_from_file(filename):** Carica una matrice dal file .mat specificato e la salva nella variabile 'A'. Verifica se la matrice è sparsa e stampa un messaggio di avviso se lo è.
