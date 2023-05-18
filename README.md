@@ -49,6 +49,13 @@ All'interno del programma è possibile trovare diverse funzioni quali:
 * **compute_filesize(filename):** Calcola la dimensione del file .mat specificato.
 * **process_file(filename):** Carica il file di matrice specificato, esegue le operazioni necessarie per calcolare la soluzione del problema e restituisce il tempo di esecuzione, l'errore relativo, la percentuale di elementi nulli, il numero di elementi non nulli, la memoria totale utilizzata e la dimensione del file.
 
+## Librerie utilizzate
+Per completare il progetto ed affrontare il problema di risolvere il sistema lineare *Ax=b*, è stato necessario utilizzare diverse librerie open-source in Python. L'obiettivo era manipolare le matrici sparse definite, evitando la conversione in matrici dense che avrebbe comportato un eccessivo utilizzo delle risorse del sistema.
+
+Le librerie open-source riportate di swguito, sono state scelte per la loro affidabilità, flessibilità e popolarità nella comunità Python. 
+Consentono di gestire in modo efficiente le matrici sparse e risolvere sistemi lineari in modo rapido ed efficiente, evitando l'esaurimento delle risorse della macchina.
+
+L'utilizzo di librerie open-source come queste, offre un'alternativa accessibile e potente rispetto ai software a pagamento, consentendo alle aziende con risorse finanziarie limitate di affrontare problemi complessi senza dover sostenere costi elevati.
 
 ### SciPy
 E' una libreria open-source per la computazione scientifica e tecnica in Python.  SciPy si basa su NumPy, un'altra libreria Python per il calcolo scientifico. Nel programma vengono utilizzate alcune sottolibrerie tra cui:
