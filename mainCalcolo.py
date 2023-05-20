@@ -16,16 +16,19 @@ def load_matrix_from_file(filename):
     mat = scipy.io.loadmat(filename)
     A = mat['Problem'][0, 0]['A']
     A = scipy.sparse.csc_matrix(A)
+
     # Verifica se la matrice è sparsa
     if scipy.sparse.isspmatrix_csc(A):
         print("La matrice A è sparsa")
     
+
     if is_symmetric(A):
         print("La matrice A è simmetrica")
     else:
         print("La matrice A non è simmetrica")
     return A
 
+# Controlla se la matrice è simmetrica controllando i valori non nulli della trasposta
 def is_symmetric(A):
     A_transpose = A.transpose()
     return np.all(A.data == A_transpose.data)
@@ -129,7 +132,6 @@ def process_file(filename):
     A = load_matrix_from_file(os.path.join(cartella, filename))
     b = create_b_vector(A)
     start_time = time.time()
-
     factor, memoria_utilizzata_chol = cholesky_decomposition(A)
 
     #DEBUG: print(memoria_utilizzata_chol)
@@ -170,19 +172,27 @@ errori_relativi = []
 # cartella contenente i file .mat
 cartella = "./"
 
-# Esegue il loop dei file contenuti nella cartella e richiama le funzioni necessarie per calolcare la soluzione del problema
-for filename in os.listdir(cartella):   
+# Crea una lista vuota per i file .mat
+file_mat = []
 
+# Esegue il loop dei file contenuti nella cartella
+for filename in os.listdir(cartella):
     if filename.endswith(".mat"):
+        file_mat.append(filename)
 
-        tempo_cholesky, errore_relativo, percent_zero, num_nonzero, memoria_totale, fileSize, errore_relativo = process_file(filename)
-        tempi_totali.append(tempo_cholesky)
-        nomi_matrici.append(filename)
-        memoria_cholesky.append(memoria_totale)   
-        file_size.append(fileSize)     
-        errori_relativi.append(errore_relativo)  
+# Ordina i file .mat in base alla dimensione del file
+file_mat = sorted(file_mat, key=lambda x: os.path.getsize(os.path.join(cartella, x)))
 
+# Processa i file .mat nell'ordine desiderato
+for filename in file_mat:
+    tempo_cholesky, errore_relativo, percent_zero, num_nonzero, memoria_totale, fileSize, errore_relativo = process_file(filename)
+    tempi_totali.append(tempo_cholesky)
+    nomi_matrici.append(filename)
+    memoria_cholesky.append(memoria_totale)
+    file_size.append(fileSize)
+    errori_relativi.append(errore_relativo)
 
+    
 matrici_dimensioni = [f"{name} ({size/(1024*1024):.2f} MB)" for name, size in zip(nomi_matrici, file_size)]
 
 
