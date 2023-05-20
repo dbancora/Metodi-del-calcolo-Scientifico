@@ -4,7 +4,7 @@ import scipy.linalg
 import sksparse.cholmod as cholmod
 import numpy as np
 import time
-# import resource --> funziona solo per linux
+import resource #--> funziona solo per linux
 import psutil #funziona su windows
 import os
 import matplotlib.pyplot as plt
