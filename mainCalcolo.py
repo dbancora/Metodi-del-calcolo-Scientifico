@@ -4,12 +4,13 @@ import scipy.linalg
 import sksparse.cholmod as cholmod
 import numpy as np
 import time
-import resource #--> funziona solo per linux
+# import resource #--> funziona solo per linux
 import psutil #funziona su windows
 import os
 import matplotlib.pyplot as plt
 import csv
 import re
+import platform
 
 # Estrae la matrice dal file .mat e la salva nella variabile 'A'
 def load_matrix_from_file(filename):
@@ -86,7 +87,7 @@ def solve_linear_system(factor, b):
 
     #DEBUG: print(x) 
 
-     # Ottieni la memoria usata dopo la fattorizzazione di Cholesky
+    # Ottieni la memoria usata dopo la fattorizzazione di Cholesky
     memoria_finale = None
     if os.name == 'posix':  # Linux
         memoria_finale = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss / 1024
@@ -97,7 +98,6 @@ def solve_linear_system(factor, b):
     # Calcola la memoria utilizzata dalla funzione
     memoria_utilizzata_sistemaLin = memoria_finale - memoria_iniziale
 
-    
     return x, memoria_utilizzata_sistemaLin
 
 # Calcola l'errore relativo della soluzione 'x' del sistema lineare cofrontato con un vettore xEsatto (un vettore contente tutti 1)
@@ -192,14 +192,10 @@ for filename in file_mat:
     file_size.append(fileSize)
     errori_relativi.append(errore_relativo)
 
-    
 matrici_dimensioni = [f"{name} ({size/(1024*1024):.2f} MB)" for name, size in zip(nomi_matrici, file_size)]
-
 
 # Ordina i tempi di esecuzione in base alla dimensione dei file
 tempi_totali, memoria_cholesky, nomi_matrici = zip(*sorted(zip(tempi_totali, memoria_cholesky, nomi_matrici), key=lambda x: os.path.getsize(os.path.join(cartella, x[2]))))
-
-
 
 # ------Crea grafico tempo di esecuzione di decomposizione e reisoluzione sistema lineare-------# 
 
@@ -246,9 +242,16 @@ plt.show()
 """
 
 # ------CREA FILE CSV-------# 
+# Ottieni il nome del sistema operativo
+operating_system = platform.system()
 
-# Nome del file CSV da creare
-filename = "dati_python.csv"
+# Imposta il nome del file CSV in base al sistema operativo
+if operating_system == 'Linux':
+    filename = "dati_python_linux.csv"
+elif operating_system == 'Windows':
+    filename = "dati_python_windows.csv"
+else:
+    filename = "dati_python.csv"  # Nome predefinito nel caso in cui il sistema operativo non sia riconosciuto
 
 with open(filename, mode='w', newline='') as file:
     writer = csv.writer(file)
