@@ -4,8 +4,7 @@ import scipy.linalg
 import sksparse.cholmod as cholmod
 import numpy as np
 import time
-# import resource #--> funziona solo per linux
-import psutil #funziona su windows
+import psutil 
 import os
 import matplotlib.pyplot as plt
 import csv
@@ -43,13 +42,21 @@ def create_b_vector(A):
 
 # Esegue la decomposizione di cholesky della matrice 'A' passata come parametro e calcola la memoria utilizzata durante il processo 
 def cholesky_decomposition(A):
-    # Ottieni la memoria usata prima della fattorizzazione di Cholesky
+    # Ottieni la memoria usata prima della fattorizzazione di Cholesky    
     memoria_iniziale = None
+
+    process = psutil.Process()
+    memoria_iniziale = process.memory_info().rss / (1024 * 1024)
+    print(memoria_iniziale)
+
+    """
     if os.name == 'posix':  # Linux
         memoria_iniziale = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss / 1024
+        print(memoria_iniziale)
     elif os.name == 'nt':  # Windows
         process = psutil.Process()
         memoria_iniziale = process.memory_info().rss / (1024 * 1024)
+    """
 
     # Calcola la fattorizzazione di Cholesky 
     try:
@@ -61,11 +68,19 @@ def cholesky_decomposition(A):
 
     # Ottieni la memoria usata dopo la fattorizzazione di Cholesky
     memoria_finale = None
+
+    
+    process = psutil.Process()
+    memoria_finale = process.memory_info().rss / (1024 * 1024)
+
+    """
     if os.name == 'posix':  # Linux
         memoria_finale = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss / 1024
+        print(memoria_finale)
     elif os.name == 'nt':  # Windows
         process = psutil.Process()
         memoria_finale = process.memory_info().rss / (1024 * 1024)
+    """
 
     # Calcola la memoria utilizzata dalla funzione
     memoria_utilizzata_chol = memoria_finale - memoria_iniziale
@@ -77,11 +92,18 @@ def cholesky_decomposition(A):
 def solve_linear_system(factor, b):
     # Ottieni la memoria usata prima della fattorizzazione di Cholesky
     memoria_iniziale = None
+
+    process = psutil.Process()
+    memoria_iniziale = process.memory_info().rss / (1024 * 1024)
+
+    """
     if os.name == 'posix':  # Linux
         memoria_iniziale = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss / 1024
+        print(memoria_iniziale)
     elif os.name == 'nt':  # Windows
         process = psutil.Process()
         memoria_iniziale = process.memory_info().rss / (1024 * 1024)
+    """
 
     x = factor(b)   
 
@@ -89,11 +111,18 @@ def solve_linear_system(factor, b):
 
     # Ottieni la memoria usata dopo la fattorizzazione di Cholesky
     memoria_finale = None
+
+    process = psutil.Process()
+    memoria_finale = process.memory_info().rss / (1024 * 1024)
+
+    """
     if os.name == 'posix':  # Linux
         memoria_finale = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss / 1024
+        print(memoria_finale)
     elif os.name == 'nt':  # Windows
         process = psutil.Process()
         memoria_finale = process.memory_info().rss / (1024 * 1024)
+    """
     
     # Calcola la memoria utilizzata dalla funzione
     memoria_utilizzata_sistemaLin = memoria_finale - memoria_iniziale
