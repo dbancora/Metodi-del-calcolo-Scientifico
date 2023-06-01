@@ -52,7 +52,6 @@ def cholesky_decomposition(A):
 
     process = psutil.Process()
     memoria_iniziale = process.memory_info().rss / (1024 * 1024)
-    print(memoria_iniziale)
 
     """
     if os.name == 'posix':  # Linux
@@ -200,7 +199,7 @@ def process_file(filename):
     num_nonzeros = compute_num_nonzeros(A)
 
     fileSize = compute_filesize(filename)
-    print("\n\n")
+    print("\n")
 
     return tempo_cholesky, errore_relativo, percent_zero, num_nonzeros, memoria_totale, fileSize, errore_relativo
 
