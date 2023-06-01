@@ -4,12 +4,13 @@ import scipy.linalg
 import sksparse.cholmod as cholmod
 import numpy as np
 import time
-import psutil 
+import psutil
 import os
 import matplotlib.pyplot as plt
 import csv
 import re
 import platform
+
 
 # Estrae la matrice dal file .mat e la salva nella variabile 'A'
 def load_matrix_from_file(filename):
@@ -20,7 +21,6 @@ def load_matrix_from_file(filename):
     # Verifica se la matrice è sparsa
     if scipy.sparse.isspmatrix_csc(A):
         print("La matrice A è sparsa")
-    
 
     if is_symmetric(A):
         print("La matrice A è simmetrica")
@@ -28,19 +28,24 @@ def load_matrix_from_file(filename):
         print("La matrice A non è simmetrica")
     return A
 
+
 # Controlla se la matrice è simmetrica controllando i valori non nulli della trasposta
 def is_symmetric(A):
     A_transpose = A.transpose()
     return np.all(A.data == A_transpose.data)
 
-# Crea il vettore 'b' a partire dai valori contenuti nella matrice 'A' passata come parametro affinchè la sol. del sistema lineare sia un vettore 'x' composto da tutti 1
+
+# Crea il vettore 'b' a partire dai valori contenuti nella matrice 'A' passata come parametro affinchè la sol. del
+# sistema lineare sia un vettore 'x' composto da tutti 1
 def create_b_vector(A):
     n = A.shape[0]
     b = A.dot(np.ones(n))
-    #DEBUG: print(b)
+    # DEBUG: print(b)
     return b
 
-# Esegue la decomposizione di cholesky della matrice 'A' passata come parametro e calcola la memoria utilizzata durante il processo 
+
+# Esegue la decomposizione di cholesky della matrice 'A' passata come parametro e calcola la memoria utilizzata
+# durante il processo
 def cholesky_decomposition(A):
     # Ottieni la memoria usata prima della fattorizzazione di Cholesky    
     memoria_iniziale = None
@@ -69,7 +74,6 @@ def cholesky_decomposition(A):
     # Ottieni la memoria usata dopo la fattorizzazione di Cholesky
     memoria_finale = None
 
-    
     process = psutil.Process()
     memoria_finale = process.memory_info().rss / (1024 * 1024)
 
@@ -88,7 +92,8 @@ def cholesky_decomposition(A):
     return factor, memoria_utilizzata_chol
 
 
-# Risolve il sistema lineare Ax=b prendendo in ingresso la matrica 'A' fattorizzata con il metodo di Cholesky e il vettore 'b'. Calcola anche la memoria utilizzata durante il processo 
+# Risolve il sistema lineare Ax=b prendendo in ingresso la matrica 'A' fattorizzata con il metodo di Cholesky e il
+# vettore 'b'. Calcola anche la memoria utilizzata durante il processo
 def solve_linear_system(factor, b):
     # Ottieni la memoria usata prima della fattorizzazione di Cholesky
     memoria_iniziale = None
@@ -105,9 +110,9 @@ def solve_linear_system(factor, b):
         memoria_iniziale = process.memory_info().rss / (1024 * 1024)
     """
 
-    x = factor(b)   
+    x = factor(b)
 
-    #DEBUG: print(x) 
+    # DEBUG: print(x)
 
     # Ottieni la memoria usata dopo la fattorizzazione di Cholesky
     memoria_finale = None
@@ -123,18 +128,22 @@ def solve_linear_system(factor, b):
         process = psutil.Process()
         memoria_finale = process.memory_info().rss / (1024 * 1024)
     """
-    
+
+    print("\n\nSistema Risolto\n")
     # Calcola la memoria utilizzata dalla funzione
     memoria_utilizzata_sistemaLin = memoria_finale - memoria_iniziale
 
     return x, memoria_utilizzata_sistemaLin
 
-# Calcola l'errore relativo della soluzione 'x' del sistema lineare cofrontato con un vettore xEsatto (un vettore contente tutti 1)
+
+# Calcola l'errore relativo della soluzione 'x' del sistema lineare cofrontato con un vettore xEsatto (un vettore
+# contente tutti 1)
 def compute_relative_error(x):
     n = len(x)
     x_esatto = np.ones(n)
     errore_relativo = np.linalg.norm(x - x_esatto) / np.linalg.norm(x_esatto)
     return errore_relativo
+
 
 # Calcola la percentuale di elementi uguali a 0 nella matrice 'A'
 def compute_percent_zeros(A):
@@ -143,11 +152,13 @@ def compute_percent_zeros(A):
     percent_zero = 100 * (1 - (n_nonzero / n_total))
     return percent_zero
 
+
 # Calcola il numero di elementi diversi da 0 presenti nella matrice A
 def compute_num_nonzeros(A):
     rows, cols = A.nonzero()
     num_nonzeros = len(rows)
     return num_nonzeros
+
 
 # Calcola la dimensione del file .mat preso in considerazione
 def compute_filesize(filename):
@@ -155,41 +166,44 @@ def compute_filesize(filename):
     print('Dimensione del file:', fileSize, 'byte')
     return fileSize
 
+
 # MainFile
 def process_file(filename):
-    print(f"Elaborazione file {filename}")
+    print(f"-----------------------------------Elaborazione file {filename}-----------------------------------")
     A = load_matrix_from_file(os.path.join(cartella, filename))
     b = create_b_vector(A)
     start_time = time.time()
     factor, memoria_utilizzata_chol = cholesky_decomposition(A)
 
-    #DEBUG: print(memoria_utilizzata_chol)
+    # DEBUG: print(memoria_utilizzata_chol)
 
     x, memoria_utilizzata_sistemaLin = solve_linear_system(factor, b)
 
-    #DEBUG: print(memoria_utilizzata_sistemaLin)
+    # DEBUG: print(memoria_utilizzata_sistemaLin)
 
     memoria_totale = memoria_utilizzata_chol + memoria_utilizzata_sistemaLin
 
-    print("La memoria utilizzata totale è {:.2f} MB".format(memoria_totale))
+    print("Memoria totale utilizzata nella risoluzione: {:.2f} MB".format(memoria_totale))
 
     end_time = time.time()
     tempo_cholesky = end_time - start_time
-    
-    #Stampa il tempo impiegato per la decomposizione di Cholesky
-    print("Tempo impiegato per la decomposizione di Cholesky e risoluzione sistema lineare: {:.4f} secondi ".format(tempo_cholesky))
-    
+
+    # Stampa il tempo impiegato per la decomposizione di Cholesky
+    print("Tempo di esecuzione per la decomposizione di Cholesky e risoluzione sistema lineare: {:.4f} secondi ".format(
+        tempo_cholesky))
+
     errore_relativo = compute_relative_error(x)
 
     print("Errore relativo: {:.4e}".format(errore_relativo))
 
     percent_zero = compute_percent_zeros(A)
     num_nonzeros = compute_num_nonzeros(A)
-    
-    fileSize = compute_filesize(filename)
 
+    fileSize = compute_filesize(filename)
+    print("\n\n")
 
     return tempo_cholesky, errore_relativo, percent_zero, num_nonzeros, memoria_totale, fileSize, errore_relativo
+
 
 # definiamo tre array per la creazione dei plot
 tempi_totali = []
@@ -214,29 +228,31 @@ file_mat = sorted(file_mat, key=lambda x: os.path.getsize(os.path.join(cartella,
 
 # Processa i file .mat nell'ordine desiderato
 for filename in file_mat:
-    tempo_cholesky, errore_relativo, percent_zero, num_nonzero, memoria_totale, fileSize, errore_relativo = process_file(filename)
+    tempo_cholesky, errore_relativo, percent_zero, num_nonzero, memoria_totale, fileSize, errore_relativo = process_file(
+        filename)
     tempi_totali.append(tempo_cholesky)
     nomi_matrici.append(filename)
     memoria_cholesky.append(memoria_totale)
     file_size.append(fileSize)
     errori_relativi.append(errore_relativo)
 
-matrici_dimensioni = [f"{name} ({size/(1024*1024):.2f} MB)" for name, size in zip(nomi_matrici, file_size)]
+matrici_dimensioni = [f"{name} ({size / (1024 * 1024):.2f} MB)" for name, size in zip(nomi_matrici, file_size)]
 
 # Ordina i tempi di esecuzione in base alla dimensione dei file
-tempi_totali, memoria_cholesky, nomi_matrici = zip(*sorted(zip(tempi_totali, memoria_cholesky, nomi_matrici), key=lambda x: os.path.getsize(os.path.join(cartella, x[2]))))
+tempi_totali, memoria_cholesky, nomi_matrici = zip(*sorted(zip(tempi_totali, memoria_cholesky, nomi_matrici),
+                                                           key=lambda x: os.path.getsize(os.path.join(cartella, x[2]))))
 
-# ------Crea grafico tempo di esecuzione di decomposizione e reisoluzione sistema lineare-------# 
+print("\n----------------------------------------------------------------------")
+# ------Crea grafico tempo di esecuzione di decomposizione e risoluzione sistema lineare-------#
 
 """"
 
 # Crea il grafico dei tempi di esecuzione 
 fig, ax1 = plt.subplots(figsize=(10, 5))
 
-color = 'tab:red'
-ax1.set_xlabel('Nome della matrice (ordinate in base alla dimensione del file in ordine crescente)')
-ax1.set_ylabel('Tempo di esecuzione della decomposizione di Cholesky e della risoluzione del sistema lineare (secondi)', color=color)
-ax1.bar(matrici_dimensioni, tempi_totali, width=-0.2, align='edge', color=color)
+color = 'tab:red' ax1.set_xlabel('Nome della matrice (ordinate in base alla dimensione del file in ordine 
+crescente)') ax1.set_ylabel('Tempo di esecuzione della decomposizione di Cholesky e della risoluzione del sistema 
+lineare (secondi)', color=color) ax1.bar(matrici_dimensioni, tempi_totali, width=-0.2, align='edge', color=color)
 
 # aggiungi etichette di testo per i tempi di esecuzione
 for i, v in enumerate(tempi_totali):
@@ -294,3 +310,5 @@ with open(filename, mode='w', newline='') as file:
         memory_diff = int(memoria_cholesky[i] * 1024 * 1024)
         # Inserisce il nome della matrice (senza spazio e senza numero) all'interno del file csv
         writer.writerow([new_matrix_name, file_size[i], memory_diff, tempi_totali[i], errori_relativi[i]])
+
+    print("\nFile CSV creato")
