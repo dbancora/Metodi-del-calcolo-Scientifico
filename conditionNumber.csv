@@ -1,1 +1,8 @@
-
+MatrixName,ConditionNumber
+ex15.mat.8.61e+12
+shallow_water1.mat,3.51e+00
+apache2.mat,3.07e+06
+parabolic_fem.mat,2.10e+05
+G3_circuit.mat,1.47e+07
+cfd1.mat,3.39e+05
+cfd2.mat,1.52e+06
